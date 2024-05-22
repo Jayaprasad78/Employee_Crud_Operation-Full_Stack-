@@ -10,7 +10,8 @@ const app = express();
 app.use(cors(
     {
         origin: ["https://curdoperation3frontend-api.vercel.app"],
-        methods: ["POST", "GET","PUT"],
+        methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow DELETE method
+        allowedHeaders: ['Content-Type', 'Authorization'],
         credentials: true
     }
 ));
