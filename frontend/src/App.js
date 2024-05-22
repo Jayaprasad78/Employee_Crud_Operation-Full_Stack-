@@ -39,7 +39,7 @@ function App() {
 
   const fetchEmployees = async () => {
     try {
-      const response = await axios.get('/api/employees');
+      const response = await axios.get('https://curdoperation3backend-api.vercel.app/api/employees');
       setDataSource(response.data);
     } catch (error) {
       console.error('Error fetching employees:', error);
@@ -49,7 +49,7 @@ function App() {
   const handleSaveEmployee = async () => {
     if (newEmployee._id) {
       try {
-        await axios.put(`/api/employees/${newEmployee._id}`, newEmployee);
+        await axios.put(`https://curdoperation3backend-api.vercel.app/api/employees/${newEmployee._id}`, newEmployee);
         fetchEmployees(); // Refresh employees after updating
       } catch (error) {
         console.error('Error updating employee:', error);
@@ -57,7 +57,7 @@ function App() {
     } else {
       try {
         // Check if email already exists
-        const checkEmailResponse = await axios.post('/api/employees/check-email', { email: newEmployee.email });
+        const checkEmailResponse = await axios.post('https://curdoperation3backend-api.vercel.app/api/employees/check-email', { email: newEmployee.email });
         if (checkEmailResponse.status === 200) {
           const employeeToAdd = { ...newEmployee };
           delete employeeToAdd._id; // Ensure _id is not set when adding a new employee
@@ -92,7 +92,7 @@ function App() {
   
   const deleteEmployee = async (id) => {
     try {
-      await axios.delete(`/api/employees/${id}`);
+      await axios.delete(`https://curdoperation3backend-api.vercel.app/api/employees/${id}`);
       fetchEmployees(); // Refresh employees after deleting
     } catch (error) {
       console.error('Error deleting employee:', error);
