@@ -7,9 +7,13 @@ const cors = require('cors');
 
 // Create Express app
 const app = express();
-app.use(cors({
-  origin: 'http://localhost:3000'
-}));
+app.use(cors(
+    {
+        origin: ["https://curdoperation3frontend-api.vercel.app"],
+        methods: ["POST", "GET","PUT"],
+        credentials: true
+    }
+));
 const PORT = process.env.PORT || 3000;
 
 // Middleware
