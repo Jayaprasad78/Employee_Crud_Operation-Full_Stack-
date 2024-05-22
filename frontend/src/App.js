@@ -47,34 +47,34 @@ function App() {
   };
 
   const handleSaveEmployee = async () => {
-    if (newEmployee._id) {
-      try {
-        await axios.put(`https://curdoperation3backend-api.vercel.app/api/employees/${newEmployee._id}`, newEmployee);
-        fetchEmployees(); // Refresh employees after updating
-      } catch (error) {
-        console.error('Error updating employee:', error);
+  if (newEmployee._id) {
+    try {
+      await axios.put(`https://curdoperation3backend-api.vercel.app/api/employees/${newEmployee._id}`, newEmployee);
+      fetchEmployees(); // Refresh employees after updating
+    } catch (error) {
+      console.error('Error updating employee:', error);
+    }
+  } else {
+    try {
+      // Check if email already exists
+      const checkEmailResponse = await axios.post('https://curdoperation3backend-api.vercel.app/api/employees/check-email', { email: newEmployee.email });
+      if (checkEmailResponse.status === 200) {
+        const employeeToAdd = { ...newEmployee };
+        delete employeeToAdd._id; // Ensure _id is not set when adding a new employee
+        await axios.post('https://curdoperation3backend-api.vercel.app/api/employees', employeeToAdd); // Corrected URL
+        fetchEmployees(); // Refresh employees after adding
       }
-    } else {
-      try {
-        // Check if email already exists
-        const checkEmailResponse = await axios.post('https://curdoperation3backend-api.vercel.app/api/employees/check-email', { email: newEmployee.email });
-        if (checkEmailResponse.status === 200) {
-          const employeeToAdd = { ...newEmployee };
-          delete employeeToAdd._id; // Ensure _id is not set when adding a new employee
-          await axios.post('/api/employees', employeeToAdd);
-          fetchEmployees(); // Refresh employees after adding
-        }
-      } catch (error) {
-        if (error.response && error.response.status === 409) {
-          message.error('Error adding employee: Email already exists');
-        } else {
-          console.error('Error adding employee:', error);
-        }
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        message.error('Error adding employee: Email already exists');
+      } else {
+        console.error('Error adding employee:', error);
       }
     }
-    setIsEditing(false);
-    resetNewEmployee();
-  };
+  }
+  setIsEditing(false);
+  resetNewEmployee();
+};
 
   const handleDeleteEmployee = (id) => {
     Modal.confirm({
