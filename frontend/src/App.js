@@ -22,19 +22,20 @@ function App() {
     fetchEmployees();
   }, []);
 
-  useEffect(() => {
-    if (searchTerm) {
-      setFilteredDataSource(
-        dataSource.filter((employee) =>
-          Object.values(employee).some((value) =>
-            String(value).toLowerCase().includes(searchTerm.toLowerCase())
-          )
+ useEffect(() => {
+  if (searchTerm) {
+    setFilteredDataSource(
+      dataSource.filter((employee) =>
+        Object.values(employee).some((value) =>
+          typeof value === 'string' && value.toLowerCase().includes(searchTerm.toLowerCase())
         )
-      );
-    } else {
-      setFilteredDataSource(dataSource);
-    }
-  }, [searchTerm, dataSource]);
+      )
+    );
+  } else {
+    setFilteredDataSource(dataSource);
+  }
+}, [searchTerm, dataSource]);
+
 
   const fetchEmployees = async () => {
     try {
